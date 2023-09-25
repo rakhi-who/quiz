@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <div class="form">
+    <span>Your name:</span>
+   <input type="text" name="" id="input">
+  </div>
+    <div class="app">
+        <div>
+        <h4>Simple quiz</h4>
+       <h5 class="questions">question goes here-</h5> 
+        
+    </div>
+    <div class="ans">
+
+       
+    </div>
+    <div class="btns">
+    <button class="next">next ></button>
+    <button class="Check">Check Answer</button>
+    <button class="start">start over</button>
+   </div>
+  </div>
+    <script >
+        const ques= [
+    {question : "what is color the of the sky?",
+    answer:  [{text:"red" , correct: false},
+              {text:"black" , correct: false},
+              {text:"yellow" , correct: false},
+              {text:"blue" , correct: true }]
+ 
+    },
+    {question : " what is the name of biggest planet inthe soler system?",
+    answer:  [{text:"jupitar" , correct: true},
+              {text:"earth" , correct: false},
+              {text:"mercury" , correct: false},
+              {text:"pluto" , correct: false }]
+
+    },
+    {question : "which one is first equation from equation's of motion?",
+    answer:  [{text:"s\\t" , correct: false},
+              {text:"v2=u2+2as" , correct: true},
+              {text:"Q=na" , correct: false},
+              {text:"E=mc2" , correct: false }]
+
+    },
+    {question : "which one of bellow is capital of india?",
+    answer:  [{text:"delhi" , correct: true},
+              {text:"varanasi" , correct: false},
+              {text:"mumbai" , correct: false},
+              {text:"nepal" , correct: false }]
+
+    },
+    {question : "who is the PM of india?",
+    answer:  [{text:"Mr.Narendra Damodar Das Modi" , correct: true},
+              {text:"Shahrukh khan" , correct: false},
+              {text:"Rahul gandhi" , correct: false},
+              {text:"Mahatma gandhi" , correct: false }]
+
+    },
+    {question : "what is the capital of uttar Pradesh?",
+    answer:  [{text:"delhi" , correct: false},
+              {text:"varanasi" , correct: false},
+              {text:"mumbai" , correct: false},
+              {text:"lucknow" , correct: true }]
+
+    }, {question : "What is biggest country on earth?",
+ answer:  [{text:"india" , correct: false},
+           {text:"Russia" , correct: true},
+           {text:"japan" , correct: false},
+           {text:"America" , correct: false }]
+ }, {question : "who was the father of Alexender the great?",
+ answer:  [{text:"Philip the first" , correct: false},
+           {text:"Philip the second" , correct: true},
+           {text:"Modi ji" , correct: false},
+           {text:"Gandhi Ji" , correct: false }]
+ }, {question : "How many pieces are there in chess?",
+ answer:  [{text:"16" , correct: false},
+           {text:"8" , correct: false},
+           {text:"32" , correct: true},
+           {text:"68" , correct: false }]
+ }, {question : "what is the GDP of india?",
+ answer:  [{text:"2.8 trillion" , correct: true},
+           {text:"8.3 trillion" , correct: false},
+           {text:"2 trillion" , correct: false},
+           {text:"2.3 trillion" , correct: false }]
+ },
+];
+    const questions = document.querySelector(".questions");
+    const answer = document.querySelector(".ans");
+    const next = document.querySelector(".next");
+    const name = document.querySelector("input");
+    let currentQuesInd = 0;
+    let result = 0;
+
+ function Quiz(){
+    currentQuesInd = 0;
+    result = 0;
+    next.addEventListener('click' ,nextQues);
+    ShowQuestion(currentQuesInd);
+
+ }  
+   function  nextQues(){
+    
+       if(currentQuesInd < ques.length-1){
+          currentQuesInd++;
+          ShowQuestion(currentQuesInd);
+       
+        }else {
+                next.style.display = "none"; 
+                document.querySelector(".Check").style.display= "block";
+            }
+          if(currentQuesInd===ques.length){
+           
+          }
+        }
+   function ShowQuestion(no){
+    answer.innerHTML = " ";
+ if(currentQuesInd===0){
+  document.querySelector(".start").style.display='none';
+  document.querySelector(".form").style.display="flex";
+ }
+    let currentQues = ques[no];
+    let questionNo = no + 1;
+    questions.innerText = questionNo +"."+currentQues.question;
+    console.log( currentQues.question);
+
+    currentQues.answer.forEach((index) =>{ 
+    const button = document.createElement("button");
+    button.innerText = index.text;   
+    button.addEventListener('click' ,()=>checkAnswer(index.correct , button));
+
+    answer.appendChild(button);
+  })
+  
+  }
+  function checkAnswer(correct , btn) {
+    if(correct){
+      result++;
+      btn.classList.add("correct");
+    }else if(!correct){
+      btn.classList.add("incorrect");
+    }
+    
+    const answerButtons = document.querySelectorAll('.ans button');
+            answerButtons.forEach(button => button.disabled = true);
+  }
+ 
+
+  document.querySelector(".Check").addEventListener('click' , ()=>{
+
+    questions.innerText = "Quiz Completed!";
+    document.querySelector(".form").style.display="none";
+  if(result<5){
+    answer.innerHTML = ` HELLO ${name.value}&nbsp; &nbsp; <br> You scored ${result} out of ${ques.length} , You are really DUMB!😂 <br>
+ `;
+  }else if(result>=5&& result<8){
+    answer.innerHTML = ` HELLO ${name.value}&nbsp; &nbsp; <br> You scored ${result} out of ${ques.length} You are just Average!🙂 not smart like me ! <br>
+ `;
+  }else if(result<=8){
+    answer.innerHTML = ` HELLO ${name.value}&nbsp; &nbsp; <br> You scored ${result} out of ${ques.length} congrats I think you are smart!🙂 but as much as me! <br>
+ `;
+  }
+   
+   
+
+    document.querySelector(".start").style.display='block';
+      document.querySelector(".start").addEventListener('click',()=>{
+     currentQuesInd = 0;
+     ShowQuestion(currentQuesInd);
+      }
+
+      )
+      document.querySelector(".Check").style.display="none";
+  })
+  
+
+
+
+   
+
+
+
+
+
+
+    
+
+    Quiz();
+
+
+    </script>
+</body>
+</html>
